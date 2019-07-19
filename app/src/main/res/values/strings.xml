@@ -1,21 +1,39 @@
 <resources>
     <string name="app_name">KilojouleCounter</string>
     <string name="action_settings">Settings</string>
+
     <string name="food_group1">Carbohydrates</string>
     <string name="food_group2">Protein</string>
+    <string name="food_group3">Fat</string>
+
     <string name="exercise_group1">Running</string>
     <string name="exercise_group2">Cycling</string>
+    <string name="exercise_group3">Jogging</string>
 
     <string-array name="spinner_array_food">
         <item>@string/food_group1</item>
         <item>@string/food_group2</item>
+        <item>@string/food_group3</item>
     </string-array>
-
 
     <string-array name="spinner_array_exercise">
         <item>@string/exercise_group1</item>
         <item>@string/exercise_group2</item>
+        <item>@string/exercise_group3</item>
     </string-array>
+
+    <string-array name="value_array_food">
+        <item>16.7</item>
+        <item>16.7</item>
+        <item>37.7</item>
+    </string-array>
+
+    <string-array name="value_array_exercise">
+        <item>28.11</item>
+        <item>11.52</item>
+        <item>12.05</item>
+    </string-array>
+
     <string name="time_request">Amount of Time (Min)</string>
     <string name="exercise_type_request">Select Exercise Type</string>
     <string name="exercise_button_text">Add</string>

@@ -6,23 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".Calculator">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </android.support.design.widget.AppBarLayout>
-
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="0dp"
@@ -96,7 +79,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="118dp"
             android:layout_marginBottom="16dp"
-            android:text="4754g"
+            android:text="."
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textSize="48sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -176,7 +159,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="16dp"
-            android:text="542352kj"
+            android:text="."
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textSize="48sp"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -2,7 +2,7 @@ package com.vltale001.kilojoulecounter;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 
 public class Calculator extends AppCompatActivity {
@@ -20,24 +21,19 @@ public class Calculator extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculator);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
         Spinner foodSpinner = findViewById(R.id.food_spinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.spinner_array_food, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
         foodSpinner.setAdapter(adapter);
-
         foodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+                updateDisplays();
             }
 
             @Override
@@ -46,18 +42,43 @@ public class Calculator extends AppCompatActivity {
             }
         });
 
-
-
         Spinner exerciseSpinner = findViewById(R.id.exercise_spinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-
-        adapter = ArrayAdapter.createFromResource(this, R.array.spinner_array_food, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
+        adapter = ArrayAdapter.createFromResource(this, R.array.spinner_array_exercise, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
         exerciseSpinner.setAdapter(adapter);
+        exerciseSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                updateDisplays();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         EditText foodInputText = findViewById(R.id.food_amount_text);
+        EditText exerciseInputText = findViewById(R.id.exercise_amount_text);
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                updateDisplays();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        };
+        foodInputText.addTextChangedListener(textWatcher);
+        exerciseInputText.addTextChangedListener(textWatcher);
+
     }
 
     @Override
@@ -80,5 +101,38 @@ public class Calculator extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    public void updateDisplays(){
+        try {
+            int foodAmount = Integer.parseInt(((EditText)findViewById(R.id.food_amount_text)).getText().toString());
+            int exerciseAmount = Integer.parseInt(((EditText)findViewById(R.id.exercise_amount_text)).getText().toString());
+
+
+
+            int foodNum = ((Spinner)findViewById(R.id.food_spinner)).getSelectedItemPosition();
+            int exerciseNum = ((Spinner)findViewById(R.id.exercise_spinner)).getSelectedItemPosition();
+
+            Double foodValue = Double.parseDouble(getResources().getStringArray(R.array.value_array_food)[foodNum]);
+            Double exerciseValue = Double.parseDouble(getResources().getStringArray(R.array.value_array_exercise)[exerciseNum]);
+
+            TextView foodView = findViewById(R.id.food_total_display);
+            TextView exerciseView = findViewById(R.id.exercise_total_display);
+            foodView.setText(String.format("%.1f%s",foodAmount*foodValue,"kj"));
+            exerciseView.setText(String.format("%.1f%s",exerciseAmount*exerciseValue*70,"kj"));
+        } catch (NumberFormatException e){
+            TextView foodView = findViewById(R.id.food_total_display);
+            TextView exerciseView = findViewById(R.id.exercise_total_display);
+            foodView.setText(".");
+            exerciseView.setText(".");
+        }
+
+
     }
 }
