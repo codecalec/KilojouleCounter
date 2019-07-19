@@ -33,7 +33,7 @@ public class Calculator extends AppCompatActivity {
         foodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                updateDisplays();
+                updateFoodDisplay();
             }
 
             @Override
@@ -49,7 +49,7 @@ public class Calculator extends AppCompatActivity {
         exerciseSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                updateDisplays();
+                updateExerciseDisplay();
             }
 
             @Override
@@ -60,7 +60,7 @@ public class Calculator extends AppCompatActivity {
 
         EditText foodInputText = findViewById(R.id.food_amount_text);
         EditText exerciseInputText = findViewById(R.id.exercise_amount_text);
-        TextWatcher textWatcher = new TextWatcher() {
+        TextWatcher foodTextWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -68,7 +68,7 @@ public class Calculator extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                updateDisplays();
+                updateFoodDisplay();
             }
 
             @Override
@@ -76,8 +76,24 @@ public class Calculator extends AppCompatActivity {
 
             }
         };
-        foodInputText.addTextChangedListener(textWatcher);
-        exerciseInputText.addTextChangedListener(textWatcher);
+        TextWatcher exerciseTextWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                updateExerciseDisplay();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        };
+        foodInputText.addTextChangedListener(foodTextWatcher);
+        exerciseInputText.addTextChangedListener(exerciseTextWatcher);
 
     }
 
@@ -109,12 +125,10 @@ public class Calculator extends AppCompatActivity {
         return true;
     }
 
-    public void updateDisplays(){
+   /* public void updateDisplays(){
         try {
             int foodAmount = Integer.parseInt(((EditText)findViewById(R.id.food_amount_text)).getText().toString());
             int exerciseAmount = Integer.parseInt(((EditText)findViewById(R.id.exercise_amount_text)).getText().toString());
-
-
 
             int foodNum = ((Spinner)findViewById(R.id.food_spinner)).getSelectedItemPosition();
             int exerciseNum = ((Spinner)findViewById(R.id.exercise_spinner)).getSelectedItemPosition();
@@ -132,7 +146,37 @@ public class Calculator extends AppCompatActivity {
             foodView.setText(".");
             exerciseView.setText(".");
         }
+    }*/
 
+    public void updateFoodDisplay(){
+        try {
+            int foodAmount = Integer.parseInt(((EditText)findViewById(R.id.food_amount_text)).getText().toString());
 
+            int foodNum = ((Spinner)findViewById(R.id.food_spinner)).getSelectedItemPosition();
+
+            Double foodValue = Double.parseDouble(getResources().getStringArray(R.array.value_array_food)[foodNum]);
+
+            TextView foodView = findViewById(R.id.food_total_display);
+            foodView.setText(String.format("%.1f%s",foodAmount*foodValue,"kj"));
+        } catch (NumberFormatException e){
+            TextView foodView = findViewById(R.id.food_total_display);
+            foodView.setText(".");
+        }
+    }
+
+    public void updateExerciseDisplay(){
+        try {
+            int exerciseAmount = Integer.parseInt(((EditText)findViewById(R.id.exercise_amount_text)).getText().toString());
+
+            int exerciseNum = ((Spinner)findViewById(R.id.exercise_spinner)).getSelectedItemPosition();
+
+            Double exerciseValue = Double.parseDouble(getResources().getStringArray(R.array.value_array_exercise)[exerciseNum]);
+
+            TextView exerciseView = findViewById(R.id.exercise_total_display);
+            exerciseView.setText(String.format("%.1f%s",exerciseAmount*exerciseValue/60*70,"kj"));
+        } catch (NumberFormatException e){
+            TextView exerciseView = findViewById(R.id.exercise_total_display);
+            exerciseView.setText(".");
+        }
     }
 }
