@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -95,6 +96,23 @@ public class Calculator extends AppCompatActivity {
         foodInputText.addTextChangedListener(foodTextWatcher);
         exerciseInputText.addTextChangedListener(exerciseTextWatcher);
 
+        Button foodButton = findViewById(R.id.food_button);
+        foodButton.setOnClickListener(new Button.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                String type = "food";
+                String description = ((Spinner)findViewById(R.id.food_spinner)).getSelectedItem().toString();
+                int amount = Integer.parseInt(((EditText)findViewById(R.id.food_amount_text)).getText().toString());
+
+
+                String totalDisplay = ((TextView)findViewById(R.id.food_total_display)).getText().toString();
+                double total = Double.parseDouble(totalDisplay.substring(0,totalDisplay.length()-2).replace(',','.'));
+
+                MainActivity.addEntry(type,description,amount,total);
+            }
+        });
+
     }
 
     @Override
@@ -125,28 +143,6 @@ public class Calculator extends AppCompatActivity {
         return true;
     }
 
-   /* public void updateDisplays(){
-        try {
-            int foodAmount = Integer.parseInt(((EditText)findViewById(R.id.food_amount_text)).getText().toString());
-            int exerciseAmount = Integer.parseInt(((EditText)findViewById(R.id.exercise_amount_text)).getText().toString());
-
-            int foodNum = ((Spinner)findViewById(R.id.food_spinner)).getSelectedItemPosition();
-            int exerciseNum = ((Spinner)findViewById(R.id.exercise_spinner)).getSelectedItemPosition();
-
-            Double foodValue = Double.parseDouble(getResources().getStringArray(R.array.value_array_food)[foodNum]);
-            Double exerciseValue = Double.parseDouble(getResources().getStringArray(R.array.value_array_exercise)[exerciseNum]);
-
-            TextView foodView = findViewById(R.id.food_total_display);
-            TextView exerciseView = findViewById(R.id.exercise_total_display);
-            foodView.setText(String.format("%.1f%s",foodAmount*foodValue,"kj"));
-            exerciseView.setText(String.format("%.1f%s",exerciseAmount*exerciseValue*70,"kj"));
-        } catch (NumberFormatException e){
-            TextView foodView = findViewById(R.id.food_total_display);
-            TextView exerciseView = findViewById(R.id.exercise_total_display);
-            foodView.setText(".");
-            exerciseView.setText(".");
-        }
-    }*/
 
     public void updateFoodDisplay(){
         try {
