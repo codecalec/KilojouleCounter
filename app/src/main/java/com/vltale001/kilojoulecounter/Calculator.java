@@ -1,18 +1,22 @@
 package com.vltale001.kilojoulecounter;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class Calculator extends AppCompatActivity {
@@ -21,11 +25,8 @@ public class Calculator extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculator);
-
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
 
         Spinner foodSpinner = findViewById(R.id.food_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.spinner_array_food, android.R.layout.simple_spinner_item);
@@ -101,18 +102,51 @@ public class Calculator extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                String type = "food";
+                //String type = "food";
                 String description = ((Spinner)findViewById(R.id.food_spinner)).getSelectedItem().toString();
                 int amount = Integer.parseInt(((EditText)findViewById(R.id.food_amount_text)).getText().toString());
-
-
                 String totalDisplay = ((TextView)findViewById(R.id.food_total_display)).getText().toString();
-                double total = Double.parseDouble(totalDisplay.substring(0,totalDisplay.length()-2).replace(',','.'));
 
-                MainActivity.addEntry(type,description,amount,total);
+                if (!totalDisplay.equals(".")){
+                    double total = Double.parseDouble(totalDisplay.substring(0,totalDisplay.length()-2).replace(',','.'));
+                    addEntry(true,description,amount,total);
+
+                } else {
+                    Toast.makeText(getApplicationContext(),R.string.add_error,Toast.LENGTH_LONG).show();
+                }
             }
         });
 
+        Button exerciseButton = findViewById(R.id.exercise_button);
+        exerciseButton.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                //String type = "exercise";
+                String description = ((Spinner)findViewById(R.id.exercise_spinner)).getSelectedItem().toString();
+                int amount = Integer.parseInt(((EditText)findViewById(R.id.exercise_amount_text)).getText().toString());
+                String totalDisplay = ((TextView)findViewById(R.id.exercise_total_display)).getText().toString();
+
+                if (!totalDisplay.equals(".")){
+                    double total = Double.parseDouble(totalDisplay.substring(0,totalDisplay.length()-2).replace(',','.'));
+                    addEntry(false,description,amount,total);
+                } else {
+                    Toast.makeText(getApplicationContext(),R.string.add_error,Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    public void addEntry(boolean isFood,String description,int amount,double total){
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        ViewGroup row = (ViewGroup) inflater.inflate(R.layout.entry, null);
+        ((TextView)row.getChildAt(0)).setText(description);
+        ((TextView)row.getChildAt(1)).setText(""+amount);
+        ((TextView)row.getChildAt(2)).setText(""+total);
+        if (isFood)
+            row.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        else
+            row.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        MainActivity.newEntries.add(row);
     }
 
     @Override
@@ -153,7 +187,13 @@ public class Calculator extends AppCompatActivity {
             Double foodValue = Double.parseDouble(getResources().getStringArray(R.array.value_array_food)[foodNum]);
 
             TextView foodView = findViewById(R.id.food_total_display);
-            foodView.setText(String.format("%.1f%s",foodAmount*foodValue,"kj"));
+            if (foodAmount*foodValue > R.integer.max_kjperday){
+                foodView.setText(".");
+                Toast.makeText(this, "Unreasonable KJ intake",
+                        Toast.LENGTH_LONG).show();
+            } else {
+                foodView.setText(String.format("%.1f%s",foodAmount*foodValue,"kj"));
+            }
         } catch (NumberFormatException e){
             TextView foodView = findViewById(R.id.food_total_display);
             foodView.setText(".");
@@ -169,7 +209,13 @@ public class Calculator extends AppCompatActivity {
             Double exerciseValue = Double.parseDouble(getResources().getStringArray(R.array.value_array_exercise)[exerciseNum]);
 
             TextView exerciseView = findViewById(R.id.exercise_total_display);
-            exerciseView.setText(String.format("%.1f%s",exerciseAmount*exerciseValue/60*70,"kj"));
+
+            if(exerciseAmount*exerciseValue/60*70 > 5000){
+                exerciseView.setText(".");
+                Toast.makeText(this, "Unreasonable Exercise Amount", Toast.LENGTH_SHORT).show();
+            } else {
+                exerciseView.setText(String.format("%.1f%s",exerciseAmount*exerciseValue/60*70,"kj"));
+            }
         } catch (NumberFormatException e){
             TextView exerciseView = findViewById(R.id.exercise_total_display);
             exerciseView.setText(".");

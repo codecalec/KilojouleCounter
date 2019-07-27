@@ -39,4 +39,8 @@
     <string name="exercise_button_text">Add</string>
     <string name="food_type_request">Select Food Group</string>
     <string name="food_request">Amount of Food (g)</string>
+    <string name="reset_settings">Reset</string>
+    <string name="food_input_error">Unreasonable amount of food</string>
+    <string name="exercise_input_error">Unreasonable amount of exercise</string>
+    <string name="add_error">Provide a type and value</string>
 </resources>
