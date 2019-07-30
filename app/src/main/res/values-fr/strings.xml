@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">KilojouleCounter</string>
+    <string name="action_settings">Réglages</string>
+    <string name="add_error">Fournir un type et une valeur</string>
+    <string name="exercise_added">Entrée d\'exercice ajoutée!</string>
+    <string name="exercise_button_text">Ajouter</string>
+    <string name="exercise_group1">Fonctionnement</string>
+    <string name="exercise_group2">Cyclisme</string>
+    <string name="exercise_group3">Le jogging</string>
+    <string name="exercise_input_error">Quantité déraisonnable d\'exercice</string>
+    <string name="exercise_type_request">Sélectionnez le type d\'exercice</string>
+    <string name="food_added">Entrée alimentaire ajoutée!</string>
+    <string name="food_group1">Les glucides</string>
+    <string name="food_group2">Protéine</string>
+    <string name="food_group3">Graisse</string>
+    <string name="food_input_error">Quantité de nourriture déraisonnable</string>
+    <string name="food_request">Quantité de nourriture(g)</string>
+    <string name="food_type_request">Sélectionnez un groupe d\'aliments</string>
+    <string name="reset_settings">Réinitialiser</string>
+    <string name="time_request">Quantité de temps</string>
+</resources>

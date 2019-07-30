@@ -43,4 +43,6 @@
     <string name="food_input_error">Unreasonable amount of food</string>
     <string name="exercise_input_error">Unreasonable amount of exercise</string>
     <string name="add_error">Provide a type and value</string>
+    <string name="food_added">Food entry added!</string>
+    <string name="exercise_added">Exercise entry added!</string>
 </resources>

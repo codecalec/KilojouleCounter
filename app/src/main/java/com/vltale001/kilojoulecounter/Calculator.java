@@ -109,8 +109,8 @@ public class Calculator extends AppCompatActivity {
 
                 if (!totalDisplay.equals(".")){
                     double total = Double.parseDouble(totalDisplay.substring(0,totalDisplay.length()-2).replace(',','.'));
+                    Toast.makeText(getApplicationContext(),R.string.food_added,Toast.LENGTH_LONG).show();
                     addEntry(true,description,amount,total);
-
                 } else {
                     Toast.makeText(getApplicationContext(),R.string.add_error,Toast.LENGTH_LONG).show();
                 }
@@ -128,6 +128,7 @@ public class Calculator extends AppCompatActivity {
 
                 if (!totalDisplay.equals(".")){
                     double total = Double.parseDouble(totalDisplay.substring(0,totalDisplay.length()-2).replace(',','.'));
+                    Toast.makeText(getApplicationContext(),R.string.exercise_added,Toast.LENGTH_LONG).show();
                     addEntry(false,description,amount,total);
                 } else {
                     Toast.makeText(getApplicationContext(),R.string.add_error,Toast.LENGTH_LONG).show();

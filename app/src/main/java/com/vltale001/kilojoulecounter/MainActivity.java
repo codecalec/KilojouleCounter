@@ -112,39 +112,6 @@ public class MainActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.global_total)).setText("0");
     }
 
-    /*private void displayEntry(Boolean isFood, String description, int amount, double total) {
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        ViewGroup row = (ViewGroup) inflater.inflate(R.layout.entry, null);
-        ((TextView)row.getChildAt(0)).setText(description);
-        ((TextView)row.getChildAt(1)).setText(""+amount);
-        ((TextView)row.getChildAt(2)).setText(""+total);
-        if (isFood)
-            row.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-        else
-            row.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        parentLinearLayout.addView(row, 0);
-    }*/
-
-    /*public void updateList(){
-        final int numOfEntries = sharedPrefs.getInt("numOfEntries",0);
-        parentLinearLayout.removeAllViews();
-        double dailyTotal = 0;
-        for (int i = 0; i < numOfEntries; i++) {
-            Scanner in = new Scanner(sharedPrefs.getString(i+"",""));
-            System.out.println(i);
-            Boolean isFood = (in.next().equals("food"));
-            String description = in.next();
-            int amount = Integer.parseInt(in.next());
-            double total = Double.parseDouble(in.next().replace(',','.'));
-            if (isFood)
-                dailyTotal += total;
-            else
-                dailyTotal -= total;
-            displayEntry(isFood,description,amount,total);
-        }
-        ((TextView)findViewById(R.id.daily_total)).setText(dailyTotal+"");
-    }*/
-
     public void buildEntryList(){
         final int numOfEntries = sharedPrefs.getInt("numOfEntries",0);
         double dailyTotal = 0;
@@ -160,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                 dailyTotal -= total;
             addEntry(isFood,description,amount,total);
         }
-        ((TextView)findViewById(R.id.daily_total)).setText(dailyTotal+"");
+        ((TextView)findViewById(R.id.daily_total)).setText(String.format("%.1f",dailyTotal));
         showBuiltEntries();
     }
 
